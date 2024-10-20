@@ -15,7 +15,7 @@ Public Module Program
         app.UseWebSockets()
         app.Map("/ws", AddressOf NotificationService.SocketHandler)
         app.MapGet("/{state}", Function(state As Boolean)
-                                   Return NotificationService.Send(state)
+                                   Return NotificationService.Toggle(state)
                                End Function)
 #If DEBUG Then
         app.Run("http://0.0.0.0:754")
