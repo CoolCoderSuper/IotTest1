@@ -14,8 +14,8 @@ try
     while (client.State == WebSocketState.Open)
     {
         var buf = new ArraySegment<byte>(new byte[1024]);
-        await client.ReceiveAsync(buf, CancellationToken.None);
-        var req = JsonSerializer.Deserialize<Request>(Encoding.UTF8.GetString(buf.ToArray()).Trim());
+        var res = await client.ReceiveAsync(buf, CancellationToken.None);
+        var req = JsonSerializer.Deserialize<Request>(Encoding.UTF8.GetString(buf.Slice(res.Count).ToArray()));
         if ((bool)req!.Info)
         {
             controller.Write(pin, PinValue.High);
