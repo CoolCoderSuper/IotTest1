@@ -21,7 +21,8 @@ try
         switch (req!.Type)
         {
             case RequestType.Toggle:
-                if (JsonSerializer.Deserialize<bool>(req.Info.ToString()))
+                var el = (JsonElement)req.Info;
+                if (el.GetBoolean())
                 {
                     controller.Write(pin, PinValue.High);
                 }
