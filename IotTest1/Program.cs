@@ -15,7 +15,9 @@ try
     {
         var buf = new ArraySegment<byte>(new byte[1024]);
         var res = await client.ReceiveAsync(buf, CancellationToken.None);
-        var req = JsonSerializer.Deserialize<Request>(Encoding.UTF8.GetString(buf.Array.AsSpan().Slice(res.Count).ToArray()));
+        var str = Encoding.UTF8.GetString(buf.Array.AsSpan().Slice(res.Count).ToArray());
+        Console.WriteLine(str);
+        var req = JsonSerializer.Deserialize<Request>(str);
         if ((bool)req!.Info)
         {
             controller.Write(pin, PinValue.High);
