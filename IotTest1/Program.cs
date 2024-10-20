@@ -15,7 +15,7 @@ try
     {
         var buf = new ArraySegment<byte>(new byte[1024]);
         var res = await client.ReceiveAsync(buf, CancellationToken.None);
-        var str = Encoding.UTF8.GetString(buf.ToArray());
+        var str = Encoding.UTF8.GetString(buf.ToArray()).Replace("\0", "");
         Console.WriteLine(str);
         var req = JsonSerializer.Deserialize<Request>(str);
         if ((bool)req!.Info)
