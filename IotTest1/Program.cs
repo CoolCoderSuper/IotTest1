@@ -18,13 +18,20 @@ try
         var str = Encoding.UTF8.GetString(buf.ToArray()).Replace("\0", "");
         Console.WriteLine(str);
         var req = JsonSerializer.Deserialize<Request>(str);
-        if ((bool)req!.Info)
+        switch (req!.Type)
         {
-            controller.Write(pin, PinValue.High);
-        }
-        else
-        {
-            controller.Write(pin, PinValue.Low);
+            case RequestType.Toggle:
+                if (JsonSerializer.Deserialize<bool>(req.Info.ToString()))
+                {
+                    controller.Write(pin, PinValue.High);
+                }
+                else
+                {
+                    controller.Write(pin, PinValue.Low);
+                }
+                break;
+            default:
+                break;
         }
     }
 }
